@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <script src="/assets/js/index.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <head>
+<!--        <div th:replace="~{/fragments/header.html :: body}"></div>-->
+        <title>AmbulanceWale</title>
+    </head>
+
+<body>
+<script src="/assets/js/navbar.js"></script>
+
+<section class="et-hero-tabs" style="background: url('/assets/images/pg1bg.jpeg') no-repeat center center/cover; ">
+    <!-- Overlay for Blur Effect -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px);"></div>
+
+
+
+
+    <h1>24/7 Emergency Ambulance Care with Ambulance-Wale</h1>
+    <h3>Seamless & Quick Ambulance Services</h3>
+    <a href="#ambulance-section"   ><button id="scroll-btn"  >Book now</button></a>
+
+    <div class="et-hero-tabs-container">
+         <a class="et-hero-tab" href="#services">Services</a>
+        <a class="et-hero-tab" href="#moto">Out Moto</a>
+        <a class="et-hero-tab" href="#review">Customers</a>
+         <span class="et-hero-tab-slider"></span>
+    </div>
+
+
+</section>
+
+
+
+
+
+
+
+    <section class="et-slide" id="services">
+    <div id="ambulance-section">
+        <h2>Our Ambulance Services</h2>
+        <div id="scroll-container">
+            <div class="card">
+                <img src="/assets/images/Maruti-Omni-Ambulance.jpg" alt="BLS">
+                <h6>Basic Life Support <br> (BLS)</h6>
+                <p>Includes patient bed, pulse <br> oximetry, and oxygen devices.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+            <div class="card">
+                <img src="/assets/images/pta1.jpg" alt="PTA">
+                <h6>Patient Transport <br> Ambulances (PTA)</h6>
+                <p>Medical transport for hospital <br> transfers.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+            <div class="card">
+                <img src="/assets/images/als1.jpg" alt="ALS">
+                <h6>Advance Life Support <br> (ALS)</h6>
+                <p>Equipped with advanced  <br>equipment for critically ill <br> patients.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+            <div class="card">
+                <img src="/assets/images/mortuary.jpg" alt="Mortuary">
+                <h6>Mortuary Van/ <br>Ambulance</h6>
+                <p>Used for dead body <br> transportation.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+            <div class="card">
+                <img src="/assets/images/veterinaryaambulance.jpg" alt="Veterinary">
+                <h6>Veterinary Ambulance</h6>
+                <p>Emergency transport for pets.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+            <div class="card">
+                <img src="/assets/images/aiirrrrrr.jpg" alt="Air Ambulance">
+                <h6>Air Ambulance</h6>
+                <p>Fast emergency transportation <br> by air.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Popup Modal -->
+    <div id="popup" class="modal" style="display: none;">
+        <div class="modal-content">
+           <form id="phoneForm">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Enter Your Details</h3>
+            <input type="tel" id="userPhone" placeholder="Enter phone number" required>
+            <p id="locationText">Fetching location...</p>
+            <button type="submit"  onclick="submitBooking()">Submit</button>
+           </form>
+        </div>
+    </div>
+<!-- <p id="responseMessage"></p> -->
+        <!-- Medical Services Section -->
+        <div class="medical-services">
+            <div class="services-header">
+                <h2>Our Other Medical Services</h2>
+                <p>
+                    We at Ambulance-wale provide our clients with a one-stop solution for all healthcare needs.
+                    We deliver an exclusive helpline number for ambulances and other healthcare services, ensuring
+                    100% call answer assurance, 24*7, Pan-India (60+ Cities), under the same helpline number.
+                    One can also find services like Teleconsultation, E-Pharmacy, Diagnostics, Home Health Care,
+                    Elderly Care, mental wellness, etc.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="et-slide" id="moto">
+
+         <!-- Call to Action Section -->
+         <section class="call-to-action">
+          <h2>We are your first call in times of need</h2>
+
+          <div class="stats">
+              <div class="stat-item">
+                  <img src="/assets/images/nationwide.jpg" alt="Coverage">
+                  <p><strong>Reached 600+</strong><br>cities</p>
+              </div>
+              <div class="stat-item">
+                  <img src="/assets/images/quickREs.jpg" alt="Fast Response">
+                  <p><strong>Arrival within 11</strong><br>Minutes</p>
+              </div>
+              <div class="stat-item">
+                  <img src="/assets/images/ambulanceIcon.jpg" alt="Ambulances">
+                  <p><strong>10000</strong><br>ambulances PAN India</p>
+              </div>
+              <div class="stat-item">
+                  <img src="/assets/images/livesSaved.png" alt="Lives Saved">
+                  <p><strong>35 lakh+</strong><br>lives saved</p>
+              </div>
+          </div>
+
+          <div class="bottom-section">
+              <img src="/assets/images/37547821_8534103.jpg" alt="Ambulance Interior" class="ambulance-image">
+              <div class="decorations">
+                  <div class="cross red"></div>
+                  <div class="cross blue large"></div>
+              </div>
+          </div>
+
+        </section>
+
+
+
+    </section>
+
+
+
+    <section class="et-slide" id="review">
+   <!-- Happy Customers Section -->
+   <section class="testimonial-section">
+    <div class="testimonial-container">
+        <div class="testimonial-image">
+            <img src="/assets/images/customer.jpg" alt="Happy Customer">
+        </div>
+        <div class="testimonial-text">
+            <h2>Happy Customers</h2>
+            <p>
+                ⭐⭐⭐⭐⭐ (5/5 Stars)
+<br>
+                "In an emergency, every second counts. I had no idea whom to call when I suddenly felt unwell, but thankfully, my grandson quickly searched online and found the Ambulance Wale website. Within a minute, he booked an ambulance without needing to call multiple numbers or wait for responses. The process was smooth, and the ambulance arrived very quickly. I am truly grateful for this service—it made a huge difference in a stressful situation. Having such a reliable option available online is a lifesaver for people like me. Thank you!"
+                
+                — Mr. Ramesh Sharma, 72 years old
+            </p>
+        </div>
+    </div>
+   </section>
+
+
+
+
+
+
+
+<!-- footer -->
+ 
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>Contact Us</h3>
+      <p>Email: contact@Ambulance-Wale.com</p>
+      <p>Phone: 8421325066</p>
+      <p>Address: S.M.Joshi, Hadapsar, Pune.</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contactus.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>Follow Us</h3>
+      <ul class="social-links">
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 Ambulance-Wale. All rights reserved.</p>
+  </div>
+</footer>
+    </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambulance Services</title>
+    <link rel="stylesheet" href="/assets/css/about.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-left">
+        <a href="/"><img src="./assets/images/navbarlogo.jpg" alt="Logo"></a>
+    </div>
+    <div class="navbar-center">
+        <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/contactus.html">Contact</a></li>
+        </ul>
+    </div>
+    <!-- <div class="navbar-right">
+        <button>Sign Up</button>
+    </div> -->
+</nav>
+
+  
+
+
+
+
+    <section class="about-section">
+        <h2>What is <span class="highlight">Ambulance Wale</span></h2>
+        <p>India's first, GPS-based technology platform for fast and reliable first-point medical attention. 
+            With an increasing emphasis on promoting independent living today, having access to the nearest 
+            ambulance can provide much-needed peace of mind in a worst-case scenario.</p>
+    </section>
+
+    <section class="problem-solution">
+        <div class="problem">
+            <h3 class="problem-title">Problem</h3>
+            <p>In 2018, 1,51,000 fatalities were caused due to road accidents. 50% of road accident victims 
+                could have been saved if timely assistance was provided. Moreover, 40%-60% of deaths in India 
+                are preventable. The major issues faced are:</p>
+            <ul>
+                <li>Severe lack of awareness and facility of first aid communication</li>
+                <li>Inability of a person to have a top-of-mind recall of emergency numbers</li>
+                <li>High response time</li>
+                <li>Large number of calls being missed</li>
+                <li>The emergency & ambulatory services sector is unorganised</li>
+                <li>Lack of awareness coupled with the lack of technology</li>
+                <li>No standard practice in ERS, affecting serviceability & customer experience</li>
+                <li>No prominent national entity in emergency response</li>
+            </ul>
+            <p>Since the COVID-19 outbreak, panic among people and lack of awareness about emergency services 
+                have increased.</p>
+        </div>
+
+        <div class="solution">
+            <h3 class="solution-title">Solution</h3>
+            <p>Ambulance wale service will be India's first & leading comprehensive emergency response service provider, 
+                extensively dealing in the Ambulatory Services. We provide:</p>
+            <ul>
+                <li>✔ End-to-end emergency response service</li>
+                <li>✔ GPS-enabled high-quality ambulances</li>
+                <li>✔ Emergency Management Technology</li>
+                <li>✔ Trained drivers and certified paramedics</li>
+                <li>✔ Dedicated Helpline Number</li>
+            </ul>
+            <img src="assets/images/solution.png" alt="Solution Icon" class="solution-image">
+        </div>
+    </section>
+
+
+
+
+    <div id="ambulance-section">
+        <h2>Our Ambulance Services</h2>
+        <div id="scroll-container">
+            <div class="card">
+                <img src="./assets/images/Maruti-Omni-Ambulance.jpg" alt="BLS">
+                <h6>Basic Life Support <br> (BLS)</h6>
+                <p>Includes patient bed, pulse <br> oximetry, and oxygen devices.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+            <div class="card">
+                <img src="./assets/images/pta1.jpg" alt="PTA">
+                <h6>Patient Transport <br> Ambulances (PTA)</h6>
+                <p>Medical transport for hospital <br> transfers.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+            <div class="card">
+                <img src="./assets/images/als1.jpg" alt="ALS">
+                <h6>Advance Life Support <br> (ALS)</h6>
+                <p>Equipped with advanced  <br>equipment for critically ill <br> patients.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+          
+        
+            <div class="card">
+                <img src="./assets/images/mortuary.jpg" alt="Mortuary">
+                <h6>Mortuary Van/ <br>Ambulance</h6>
+                <p>Used for dead body <br> transportation.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+            <div class="card">
+                <img src="./assets/images/veterinaryaambulance.jpg" alt="Veterinary">
+                <h6>Veterinary Ambulance</h6>
+                <p>Emergency transport for pets.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+            <div class="card">
+                <img src="./assets/images/aiirrrrrr.jpg" alt="Air Ambulance">
+                <h6>Air Ambulance</h6>
+                <p>Fast emergency transportation <br> by air.</p>
+                <button onclick="openModal()">Book now</button>
+            </div>
+        </div>
+    </div>
+    <!-- Popup Modal -->
+    <div id="popup" class="modal" style="display: none;">
+        <div class="modal-content">
+           <form id="phoneForm">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Enter Your Details</h3>
+            <input type="tel" id="userPhone" placeholder="Enter phone number" required>
+            <p id="locationText">Fetching location...</p>
+            <button type="submit"  onclick="submitBooking()">Submit</button>
+           </form>
+        </div>
+    </div>
+<!-- <p id="responseMessage"></p> -->
+
+
+
+
+
+    <!-- footer -->
+ 
+    <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-section">
+            <h3>Contact Us</h3>
+            <p>Email: contact@Ambulance-Wale.com</p>
+            <p>Phone: 8421325066</p>
+            <p>Address: S.M.Joshi, Hadapsar, Pune.</p>
+          </div>
+
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/contactus.html">Contact</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <ul class="social-links">
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      <p>&copy; 2025 Your Company. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  
+  <script src="/about.js"></script>
+</body>
+</html>

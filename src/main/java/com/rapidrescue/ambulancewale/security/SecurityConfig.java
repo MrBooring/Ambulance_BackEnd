@@ -37,11 +37,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**","/public/**","/updateLocation","/ws/**").permitAll()
+//                        .requestMatchers("/auth/**","/public/**","/updateLocation","/ws/**","/", "/home","/error").permitAll()
+//                        .requestMatchers("/assets/**","/fragments_css/**","/about", "/contact").permitAll()
                         .requestMatchers("/user/**").hasAuthority("USER")
                         .requestMatchers("/driver/**").hasAuthority("DRIVER")
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        .anyRequest().authenticated() // Protect all other endpoints
+                        .anyRequest().permitAll() // Protect all other endpoints
                 )
 
                 .sessionManagement(sess -> sess

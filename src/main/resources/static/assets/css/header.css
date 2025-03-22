@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+
+.navibar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(0px);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgb(58, 57, 57);
+    position: fixed;
+    width: 90%;
+    left: 50%;
+    top: 20px;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.navbar-left img {
+    height: 50px;
+}
+
+.navbar-center {
+    flex: 1;
+    text-align: center;
+}
+
+.navbar-center ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.navbar-center li {
+    display: inline-block;
+}
+
+.navbar-center a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.navbar-center a:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #1e88e5;
+    transform: scale(1.1);
+}
+
+.navbar-right button {
+    background: linear-gradient(135deg, #f1420d, #e81c8a);
+    color: white;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.navbar-right button:hover {
+    background: linear-gradient(135deg, #1e88e5, #23aaf8);
+    transform: scale(1.05);
+}

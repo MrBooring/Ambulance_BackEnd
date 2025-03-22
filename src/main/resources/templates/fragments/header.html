@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+
+<head>
+<!--    <link rel="stylesheet" th:href="@{/assets/css/header.css}">-->
+<!--    <link rel="stylesheet" href="/assets/css/header.css">-->
+</head>
+
+<body>
+
+<style>
+
+    .navbarr {
+        display: flex;
+        justify-content: space-between;
+        /*align-items: center;*/
+        padding: 15px 50px;
+        background: rgb(255, 255, 255);
+
+        border-radius: 0px;
+        box-shadow: 0 4px 10px rgb(58, 57, 57);
+        position: fixed;
+        width: 100%;
+        /*left: 50%;*/
+        /*top: 20px;*/
+        height: 70px;
+
+        z-index: 100;
+    }
+    .navbar-left img {
+        height: 50px;
+    }
+
+    .navbar-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .navbar-center ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: end;
+        gap: 40px;
+    }
+
+
+
+    .navbar-center a {
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 18px;
+        color: #333;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+        border-color: #28a745;
+        border-radius: 8px;
+    }
+
+    .navbar-center a:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: #1e88e5;
+        transform: scale(1.1);
+    }
+
+
+
+
+</style>
+
+<nav class="navbarr">
+
+    <div class="navbar-left">
+        <a href="/"><img src="/assets/images/ambulancelogo.png" alt="Logo"></a>
+    </div>
+    <div class="navbar-center">
+        <ul>
+            <li><a href="/">Homee</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </div>
+    <!-- <div class="navbar-right">
+        <button>Sign Up</button>
+    </div> -->
+</nav>
+</body>
+
+
+</html>
+

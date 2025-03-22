@@ -1,8 +1,11 @@
 package com.rapidrescue.ambulancewale.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rapidrescue.ambulancewale.impl.UserDetailsServiceImpl;
 import com.rapidrescue.ambulancewale.service.AdminService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +19,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.security.SignatureException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Component
@@ -29,54 +35,71 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     Logger log = Logger.getLogger(JwtAuthFilter.class.getName());
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // Retrieve the Authorization header
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        try {
+            String authHeader = request.getHeader("Authorization");
+            log.info("=======================Raw Authorization Header: [{}]=========================\n"+ authHeader);
+            log.info("============"+request.getRequestURI() );
 
+            String token = null;
+            String username = null;
+            String role = null;
 
-        String authHeader = request.getHeader("Authorization");
-        logger.info("Raw Authorization Header: [" + authHeader + "]");
-        log.info("======================= Authorization Header: ========================{}"+authHeader );
-        String token = null;
-        String username = null;
-        String role = null;
-
-        // Check if the header starts with "Bearer "
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7).trim().replaceAll("[\n\r]", "");; // Extract token
-            username = jwtUtil.extractUsername(token); // Extract username from token
-            role = jwtUtil.extractRole(token);
-        }
-
-        log.info("Extracted Token: {}"+ token);
-        log.info("Extracted Username: {}"+ username);
-        log.info("Extracted role  {}"+ role);
-        log.info("Authentication Before Setting: {}"+ SecurityContextHolder.getContext().getAuthentication());
-
-
-
-        // If the token is valid and no authentication is set in the context
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUserId(username);
-        log.info("============================== user Details ====================" + userDetails.getAuthorities());
-            // Validate token and set authentication
-            if (jwtUtil.validateToken(token, userDetails)) {
-                log.info("============================== validateToken " +jwtUtil.validateToken(token, userDetails)+"===================================");
-
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-
-                log.info("============================== UsernamePasswordAuthenticationToken ===================="+token);
-
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7).trim().replace("\n", "").replace("\r", ""); // Clean token
+                username = jwtUtil.extractUsername(token);
+                role = jwtUtil.extractRole(token);
             }
-        }
 
-        // Continue the filter chaind
-        filterChain.doFilter(request, response);
+            log.info("Extracted Token: {}"+ token);
+            log.info("Extracted Username: {}"+ username);
+            log.info("Extracted Role: {}"+ role);
+            log.info("Authentication Before Setting: {}"+ SecurityContextHolder.getContext().getAuthentication());
+
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                log.info("User Details Authorities: {}"+ userDetails.getAuthorities());
+
+                boolean isValid = jwtUtil.validateToken(token, userDetails);
+                log.info("Is Token Valid: {}"+ isValid);
+
+                if (isValid) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+            }
+
+            filterChain.doFilter(request, response);
+
+        } catch (ExpiredJwtException e) {
+            log.warning("JWT Token has expired: " + e.getMessage());
+            sendErrorResponse(response, "JWT_EXPIRED", "Your session has expired. Please login again.", 401);
+        } catch (MalformedJwtException e) {
+            log.warning("Malformed JWT Token: " + e.getMessage());
+            sendErrorResponse(response, "JWT_MALFORMED", "Invalid token format.", 403);
+        } catch (Exception e) {
+            log.warning("Unexpected error in JWT Filter: " + e.getMessage());
+            sendErrorResponse(response, "JWT_ERROR", "Invalid token or authentication issue.", 403);
+        }
     }
+
+    private void sendErrorResponse(HttpServletResponse response, String errorCode, String message, int status)
+            throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("errorCode", errorCode);
+        errorDetails.put("message", message);
+        errorDetails.put("timestamp", System.currentTimeMillis());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.getWriter().write(objectMapper.writeValueAsString(errorDetails));
+        response.getWriter().flush();
+    }
+
 
 }
