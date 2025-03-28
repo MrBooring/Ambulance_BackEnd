@@ -39,10 +39,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("/auth/**","/public/**","/updateLocation","/ws/**","/", "/home","/error").permitAll()
 //                        .requestMatchers("/assets/**","/fragments_css/**","/about", "/contact").permitAll()
-                        .requestMatchers("/user/**").hasAuthority("USER")
-                        .requestMatchers("/driver/**").hasAuthority("DRIVER")
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        .anyRequest().permitAll() // Protect all other endpoints
+                                .requestMatchers("/user/**").hasAuthority("USER")
+                                .requestMatchers("/driver/**").hasAuthority("DRIVER")
+                                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                                .anyRequest().permitAll() // Protect all other endpoints
                 )
 
                 .sessionManagement(sess -> sess

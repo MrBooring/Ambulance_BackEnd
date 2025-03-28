@@ -34,6 +34,9 @@ public class BookingService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SmsService smsService;
+
     private final double searchRange = 5.0; //km
 
     Logger log = Logger.getLogger(AuthController.class.getName());
@@ -52,16 +55,13 @@ public class BookingService {
             user.setRole(Role.CUSTOMER);
             userRepository.save(user);
         }
-
         booking.setBookingStatus(BookingStatus.WAITING_FOR_DRIVER);
         booking.setBookingTime(LocalDateTime.now());
         booking.setCreatedAt(LocalDateTime.now());
         booking.setUpdatedAt(LocalDateTime.now());
         booking.setLatitude(request.getLatitude());
         booking.setLongitude(request.getLongitude());
-
         booking.setUser(user);
-
         // Find the nearest available driver
         List<Driver> driversInRange = findAvailableDriversWithinRange(request.getLatitude(), request.getLongitude());
 
@@ -73,8 +73,9 @@ public class BookingService {
             log.info("No available drivers found. Booking remains in WAITING_FOR_DRIVER.");
             // Keep it waiting for the cron job to try again
         }
-
-        return bookingRepository.save(booking);
+        Booking bk  = bookingRepository.save(booking);
+        smsService.sendSms(   "Your ambulance booking (ID: " + bk.getBookingId() + ") has been received. Our team is assigning a driver, and they will reach you shortly. We will keep updating you. Stay safe!", booking.getUser().getPhone());
+        return  bk;
     }
 
     private void assignDriverToBooking(Driver driver, Booking booking) {
@@ -83,8 +84,8 @@ public class BookingService {
         driver.setDriverStatus(DriverStatus.EN_ROUTE_TO_PICKUP);
         driverRepository.save(driver);
         bookingRepository.save(booking);
-        sendNotificationToDriver(driver, booking);
-        sendNotificationToUser(booking);
+        smsService.sendSms("EMERGENCY ASSISTANCE REQUIRED!\n (ID: " + booking.getBookingId() + ") Open the Ambulancewale driver app for location ", booking.getDriver().getPhone());
+        smsService.sendSms("Your booking (ID: " + booking.getBookingId() + ") An ambulance is on the way Track your ambulance via [URL], We will keep updating you. Stay safe!", booking.getUser().getPhone());
     }
 
 
@@ -97,18 +98,9 @@ public class BookingService {
                 .collect(Collectors.toList());
     }
 
-    private void sendNotificationToDriver(Driver driver, Booking booking) {
-        // Implement notification logic here (e.g., Firebase, WebSockets)
-        log.info(" TODO Notifying Driver ID: " + driver.getDriverId() + " about Booking ID: " + booking.getBookingId());
-    }
-    private void sendNotificationToUser(  Booking booking) {
-        // Implement notification logic here (e.g., Firebase, WebSockets)
-        log.info(" TODO Notifying User ID: " + booking.getUser().getUserId() + " about Booking ID: " + booking.getBookingId());
-    }
-    private void sendCancledNotificationToUser(  Booking booking) {
-        // Implement notification logic here (e.g., Firebase, WebSockets)
-        log.info(" TODO Notifying User ID: " + booking.getUser().getUserId() + " about Booking ID: " + booking.getBookingId());
-    }
+
+
+
 
 
 
@@ -126,28 +118,7 @@ public class BookingService {
     }
 
 
-    public void acceptBooking(int bookingId, int driverId) {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found"));
-        Driver driver = driverRepository.findById(driverId).orElseThrow(() -> new RuntimeException("Driver not found"));
 
-        if (booking.getBookingStatus() == BookingStatus.WAITING_FOR_DRIVER) {
-            // Mark the booking as accepted and assign the driver
-            booking.setDriver(driver);
-            booking.setBookingStatus(BookingStatus.CONFIRMED );
-            booking.setUpdatedAt(LocalDateTime.now());
-
-            // Update driver's status to on-duty
-            driver.setDriverStatus(DriverStatus.EN_ROUTE_TO_PICKUP);
-            driverRepository.save(driver);
-
-            // Optionally, notify the user about the assignment
-            sendNotificationToUser(booking);
-        }else{
-            sendNotificationToUser(booking);//TODO send to driver that someone else has already accepted this ride
-        }
-
-        bookingRepository.save(booking);
-    }
     @Scheduled(fixedRate = 60000) // Runs every minute
     public void checkPendingBookings() {
         log.info("============================= checkPendingBookings cron job =============================");
@@ -161,9 +132,8 @@ public class BookingService {
             if (!driversInRange.isEmpty()) {
                 Driver nearestDriver = driversInRange.get(0); // Pick the closest driver
                 assignDriverToBooking(nearestDriver, booking);
-                sendNotificationToUser(booking);
-                sendNotificationToDriver(nearestDriver, booking);
-                
+
+
             } else {
                 log.info("No drivers found for Booking ID: " + booking.getBookingId());
 
@@ -171,7 +141,8 @@ public class BookingService {
                 if (Duration.between(booking.getBookingTime(), LocalDateTime.now()).toMinutes() >= 5) {
                     booking.setBookingStatus(BookingStatus.CANCELLED_NO_DRIVER_AVAILABLE);
                     log.info("Booking ID " + booking.getBookingId() + " cancelled due to no available drivers.");
-                    sendCancledNotificationToUser(booking);
+                    smsService.sendSms("Your booking (ID: " + booking.getBookingId() + ") We Could not find any ambulance active nearby We will call you to assist you shortly", booking.getUser().getPhone());
+
                 }
             }
             bookingRepository.save(booking);
